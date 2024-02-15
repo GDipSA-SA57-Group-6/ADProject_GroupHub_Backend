@@ -11,6 +11,7 @@ import edu.nus.iss.gdipsa.grouphub.ModelLayer.GroupHub;
 import jakarta.persistence.EntityNotFoundException;
 import edu.nus.iss.gdipsa.grouphub.InterfaceLayer.ISubscriber;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Service
 public class GroupHubSubscriberService implements ISubscriber {
@@ -62,13 +63,12 @@ public class GroupHubSubscriberService implements ISubscriber {
         return true;
     }
 
-    @Override
-    public List<GroupHub> findAllSubscribedByUser(Integer userId) {
+    // 获取用户订阅的GroupHub列表
+    public Set<GroupHub> findAllSubscribedByUser(Integer userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-        return new ArrayList<>(user.getBelongsToGroupHubs());
+        return user.getBelongsToGroupHubs();
     }
-
 
     @Override
     public void ec_Like(Integer userId, long groupId) {

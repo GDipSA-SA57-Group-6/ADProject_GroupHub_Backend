@@ -1,6 +1,7 @@
 package edu.nus.iss.gdipsa.grouphub.InterfaceLayer;
 
 import java.util.List;
+import java.util.Set;
 
 import edu.nus.iss.gdipsa.grouphub.ModelLayer.GroupHub;
 
@@ -44,7 +45,7 @@ public interface ISubscriber {
      * @param userId
      * @return
      */
-    public List<GroupHub> findAllSubscribedByUser(Integer userId);
+    public Set<GroupHub> findAllSubscribedByUser(Integer userId);
 
     void ec_Like(Integer userId, long groupId);
 }

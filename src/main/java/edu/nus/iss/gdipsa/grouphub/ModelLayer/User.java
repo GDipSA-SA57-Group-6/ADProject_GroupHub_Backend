@@ -46,12 +46,12 @@ public class User {
         this.publishedGroupHubs = publishedGroupHubs;
     }
 
-    public List<GroupHub> getBelongsToGroupHubs() {
-        return publishedGroupHubs;
+    public Set<GroupHub> getBelongsToGroupHubs() {
+        return belongsToGroupHubs;
     }
 
-    public void setBelongsToGroupHubs(List<GroupHub> publishedGroupHubs) {
-        this.publishedGroupHubs = publishedGroupHubs;
+    public void setBelongsToGroupHubs(Set<GroupHub> belongsToGroupHubs) {
+        this.belongsToGroupHubs = belongsToGroupHubs;
     }
     
 }
