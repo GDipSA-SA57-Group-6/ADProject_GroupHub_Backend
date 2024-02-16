@@ -7,6 +7,7 @@ import edu.nus.iss.gdipsa.grouphub.RepositoryLayer.UserRepository;
 import edu.nus.iss.gdipsa.grouphub.ServiceLayer.GroupHub.GroupHubPublisherService;
 import edu.nus.iss.gdipsa.grouphub.ServiceLayer.GroupHub.GroupHubSubscriberService;
 import edu.nus.iss.gdipsa.grouphub.ServiceLayer.GroupHub.GroupHubValidator;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -135,4 +137,25 @@ public class GroupHubController {
     public ResponseEntity<?> getAllGroupHub() {
         return new ResponseEntity<>(groupHubRepository.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/published/{userId}")
+    public ResponseEntity<?> getPublishedGroupHubs(@PathVariable Integer userId) {
+        try {
+            List<GroupHub> publishedGroupHubs = groupHubPublisherService.findAllPublishedByUser(userId);
+            return new ResponseEntity<>(publishedGroupHubs, HttpStatus.OK);
+        } catch (EntityNotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/delete/{groupHubId}")
+    public ResponseEntity<?> deleteGroupHub(@PathVariable Long groupHubId) {
+        try {
+            groupHubPublisherService.deleteByGroupHubID(groupHubId);
+            return new ResponseEntity<>("GroupHub successfully deleted", HttpStatus.OK);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
